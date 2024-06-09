@@ -66,11 +66,11 @@ luego para ejecutar el compilador:
 ```shell
 $ ./run < testeos/test1.c
 ```
-Pero, hay otra opcion mas practica que es utilizar el **Makefile**, para ello es necesario contar con un bash o Linux:
+El repositroio cuenta con otra opcion mas practica que es utilizar el **Makefile**, para ello es necesario contar con un bash o Linux:
 ```shell
 $ make
 ```
-si se desea ejecutar un test especifico, se debe de cambiar desde el **Makefile*:
+si se desea ejecutar un test especifico, se debe de cambiar desde el **Makefile**:
 ```shell
 run:
 	./run < testeos/test1.c
