@@ -1,5 +1,5 @@
 # ACT_CompiladorPython_VIU58GIIN
-Actividad 2: Desarrollar un compilador. Asignatura 58GIIN - Estrategias Algoritmicas de la Universidad Internacional de Valencia.
+Actividad 2: Desarrollar un compilador. Asignatura 58GIIN - Estrategias Algorítmicas de la Universidad Internacional de Valencia.
 
 ## Enunciado de la actividad
 Desarrollar un compilador que traduzca instrucciones de un lenguaje fuente simple a uno de tres posibles lenguajes objetivo: C, Java o Python. Los lenguajes objetivo serán asignados aleatoriamente a los alumnos de la siguiente lista:
@@ -25,7 +25,7 @@ Desarrollar un compilador que traduzca instrucciones de un lenguaje fuente simpl
 Este proyecto es un compilador que traduce un lenguaje fuente simple a Python. Utiliza `Flex` para el análisis léxico y `Bison` para el análisis sintáctico y la generación de código. El objetivo es transformar un conjunto de instrucciones en un lenguaje propio a un código Python funcional. Para más información ver [DOCUMENTACION](./DOCUMENTACION.md).
 
 ## Casos de Prueba
-Se han diseñado varios casos de prueba para comprobar funcionamiento del compilador. Estos casos cubren diferentes aspectos del lenguaje fuente, incluyendo asignaciones, operaciones aritméticas, estructuras de control y bucles. El lenguaje fuente simple utilizado tiene el siguiente formato: 
+Se han diseñado varios casos de prueba para comprobar el funcionamiento del compilador. Estos casos cubren diferentes aspectos del lenguaje fuente, incluyendo asignaciones, operaciones aritméticas, estructuras de control y bucles. El lenguaje fuente simple utilizado tiene el siguiente formato: 
 ```shell
 x = 1;
 y = 2;
@@ -46,7 +46,7 @@ $ flex lex.l
 $ bison -d sin.y
 $ gcc -o run lex.yy.c sin.tab.c -lm
 ```
-luego para ejecutar el compilador:
+luego, para ejecutar el compilador:
 ```shell
 $ ./run < testeos/test1.c
 ```
@@ -54,11 +54,11 @@ Si se desea ejecutar el **output.py** por separado:
 ```shell
 $ python3 output.py
 ```
-El repositroio cuenta con otra opcion mas practica que es utilizar el **Makefile**, para ello es necesario contar con un bash o Linux:
+El repositorio cuenta con otra opción más práctica que es utilizar el **Makefile**, para ello es necesario contar con un bash o Linux:
 ```shell
 $ make
 ```
-si se desea ejecutar un test especifico, se debe de cambiar desde el **Makefile**:
+si se desea ejecutar un test específico, se debe cambiar desde el **Makefile**:
 ```shell
 run:
 	./run < testeos/test1.c
@@ -66,7 +66,7 @@ run:
 //Comando para ejecutar el compilador con el test especifico
 $ make run
 ```
-Para eliminar los archivos creados tras la compilacion del programa, se puede realizar el siguiente comando:
+Para eliminar los archivos creados tras la compilación del programa, se puede realizar el siguiente comando:
 ```shell
 $ make clean
 ```
