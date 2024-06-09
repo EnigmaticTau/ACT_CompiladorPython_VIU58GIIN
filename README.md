@@ -53,8 +53,6 @@ if (x == 1) {
     print 300;
 }
 ```
-## Documentación del Proceso de Desarrollo
-
 ## Instrucciones de Ejecución
 Para compilar el programa, utilizamos las siguientes instrucciones:
 ```shell
