@@ -17,12 +17,18 @@ extern FILE *yyin;
 ";"            { return SEMICOLON; }
 "="            { return ASSIGN; }
 "=="           { return EQ; }
-"<"            { return LT; }         
-">"            { return GT; }         
+"!="           { return NEQ; }
+"<="           { return LE; }
+">="           { return GE; }
+"<"            { return LT; }
+">"            { return GT; }
 "+"            { return PLUS; }
 "-"            { return MINUS; }
 "*"            { return TIMES; }
 "/"            { return DIVIDE; }
+"and"          { return AND; }
+"or"           { return OR; }
+"not"          { return NOT; }
 [0-9]+         { yylval.intval = atoi(yytext); return NUMBER; }
 [a-zA-Z_][a-zA-Z0-9_]*  { yylval.strval = strdup(yytext); return IDENTIFIER; }
 [ \t\n]        { /* Ignore whitespace */ }
