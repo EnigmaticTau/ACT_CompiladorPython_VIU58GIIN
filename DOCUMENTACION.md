@@ -30,7 +30,7 @@ expr             ::= IDENTIFIER '=' expr
 
 ## Decisiones de Diseño
 - Se simplificó el uso de `in range()` imprimiéndolo desde la regla `for` debido a complicaciones con el programa.
-- Se implementó la estructura base `IF-ELSE`.
+- Se implementó la estructura básica `IF-ELSE`.
 ### El programa admite las siguientes características
 - **Tipos de datos**: El compilador admite diversos tipos de datos como enteros, flotantes, cadenas de texto y booleanos.
 - **Estructuras de control**: Se incluyen estructuras de control como condicionales (`if`, `else`), bucles (`for`, `while`) y funciones como `print`.
