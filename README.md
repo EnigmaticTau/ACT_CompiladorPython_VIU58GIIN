@@ -56,13 +56,13 @@ if (x == 1) {
 ## Documentación del Proceso de Desarrollo
 
 ## Instrucciones de Ejecución
-Para ejecutar el compilador, utilizamos las siguientes instrucciones:
+Para compilar el programa, utilizamos las siguientes instrucciones:
 ```shell
 $ flex lex.l
 $ bison -d sin.y
 $ gcc -o run lex.yy.c sin.tab.c -lm
 ```
-luego para utilizar el compilador:
+luego para ejecutar el compilador:
 ```shell
 $ ./run < testeos/test1.c
 ```
