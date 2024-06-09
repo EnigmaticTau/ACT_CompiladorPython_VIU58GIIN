@@ -29,22 +29,21 @@ expr             ::= IDENTIFIER '=' expr
 ```
 
 ## Decisiones de Diseño
-- Se simplifico el uso de `in range()` imprimiendolo desde la regla `for` debido a complicaciones con el programa.
-- Se implemento la estrucutra base `IF-ELSE`.
-### El programa admite las siguientes caracteristicas
+- Se simplificó el uso de `in range()` imprimiéndolo desde la regla `for` debido a complicaciones con el programa.
+- Se implementó la estructura base `IF-ELSE`.
+### El programa admite las siguientes características
 - **Tipos de datos**: El compilador admite diversos tipos de datos como enteros, flotantes, cadenas de texto y booleanos.
 - **Estructuras de control**: Se incluyen estructuras de control como condicionales (`if`, `else`), bucles (`for`, `while`) y funciones como `print`.
 - **Operadores**: Soporta operadores aritméticos (`+`, `-`, `*`, `/`), lógicos (`or`, `and`, `not`) y de comparación (`==`, `!=`, `<`, `>`, `<=`, `>=`). 
 ### Mantenimiento de la Indentación
 - Función `wrap_with_indent`: Para manejar la indentación en estructuras de control anidadas (como `if`, `while`, y `for`), se implementó la función `wrap_with_indent`, que ajusta el nivel de indentación de las líneas de código generadas, asegurando que el código Python resultante sea válido y legible.
 ### Output
-Para una mejor visualizacion de los resultados del programa, se empleo la utilizacion de un archivo `output.py`, el flujo del archivo es el siguiente:
+Para una mejor visualización de los resultados del programa, se empleó la utilización de un archivo `output.py`, el flujo del archivo es el siguiente:
 - El código generado a partir del análisis sintáctico se almacena en la variable `output_code`.
 - Una vez finalizado el análisis, el contenido de `output_code` se escribe en el archivo `output.py`. Esto se hace para persistir el código generado y facilitar su ejecución.
 - El código generado se imprime en la consola. Esto se realiza utilizando las funciones `printf` y `fprintf`.
 - Se utiliza la función `popen` para ejecutar el código generado directamente en un intérprete de Python (`python3`) y imprimir por consola el resultado del codigo traducido.
-
-### 
+ 
 ## Implementación
 ### Análisis Léxico
 El análisis léxico se implementó utilizando Flex. Se definieron patrones para reconocer identificadores, números, palabras clave y operadores. Los tokens reconocidos son devueltos a Bison para el análisis sintáctico. Pueden acceder a las definiciones de tokens en [lex.l](./lex.l).
