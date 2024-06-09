@@ -22,21 +22,7 @@ Desarrollar un compilador que traduzca instrucciones de un lenguaje fuente simpl
 **Criterios de evaluación**: Se evaluará la gramática y reglas léxicas, la implementación de la generación de código, la calidad de los casos de prueba y la documentación proporcionada.
 
 ## Descripcion
-Este proyecto es un compilador que traduce un lenguaje fuente simple a Python. Utiliza Flex para el análisis léxico y Bison para el análisis sintáctico y la generación de código. El objetivo es transformar un conjunto de instrucciones en un lenguaje propio a un código Python funcional.
-
-## Definición de la Gramática del Lenguaje Fuente
-El lenguaje fuente aceptado por este compilador se define mediante el siguiente eBNF:
-
-```shell
-program          ::= stmt_list
-stmt_list        ::= stmt ';' stmt_list | stmt
-stmt             ::= expr | 'print' expr ';' | 'if' '(' expr ')' stmt ('else' stmt)? | 'while' '(' expr ')' stmt | 'for' '(' expr ';' expr ';' expr ')' stmt | '{' stmt_list '}'
-expr             ::= IDENTIFIER '=' expr | expr ('+' | '-' | '*' | '/' | '==' | '<' | '>') expr | '(' expr ')' | NUMBER | IDENTIFIER
-
-```
-## Creación de Reglas Léxicas y Gramática
-Las reglas léxicas se definen utilizando Flex en el archivo lex.l. Las reglas sintácticas y las acciones semánticas se definen con Bison en el archivo sin.y. Se incorporan acciones semánticas para la traducción al lenguaje objetivo (Python).
-## Generación de Código
+Este proyecto es un compilador que traduce un lenguaje fuente simple a Python. Utiliza `Flex` para el análisis léxico y `Bison` para el análisis sintáctico y la generación de código. El objetivo es transformar un conjunto de instrucciones en un lenguaje propio a un código Python funcional.
 
 ## Casos de Prueba
 Se han diseñado varios casos de prueba para comprobar funcionamiento del compilador. Estos casos cubren diferentes aspectos del lenguaje fuente, incluyendo asignaciones, operaciones aritméticas, estructuras de control y bucles. El lenguaje fuente simple utilizado tiene el siguiente formato: 
