@@ -10,7 +10,7 @@ void yyerror(const char *s);
 extern FILE *yyin;
 
 FILE *output;
-char *output_code = NULL;  // Variable para almacenar el código generado
+char *output_code = NULL;
 
 char* concat(const char* s1, const char* s2) {
     if (s1 == NULL) return strdup(s2);
@@ -25,20 +25,18 @@ char* wrap_with_indent(const char* code, int indent_level) {
     int indent_size = 4;
     int total_indent = indent_level * indent_size;
     size_t code_len = strlen(code);
-    size_t result_size = code_len + total_indent * 20 + 1;  // Aumentar tamaño del buffer para múltiples líneas
+    size_t result_size = code_len + total_indent * 20 + 1;
     char* result = malloc(result_size);
-    result[0] = '\0';  // Inicializar como cadena vacía
+    result[0] = '\0';
 
     const char* line_start = code;
     while (*line_start != '\0') {
-        // Añadir indentación
         char* ptr = result + strlen(result);
         for (int i = 0; i < total_indent; i++) {
             *ptr++ = ' ';
         }
         *ptr = '\0';
 
-        // Copiar línea hasta el siguiente '\n' o fin de cadena
         const char* line_end = strchr(line_start, '\n');
         if (line_end == NULL) {
             strcat(result, line_start);
@@ -53,7 +51,6 @@ char* wrap_with_indent(const char* code, int indent_level) {
 }
 
 int indent_level = 0;
-
 %}
 
 %union {
@@ -65,30 +62,34 @@ int indent_level = 0;
 %token <strval> IDENTIFIER
 %token FOR WHILE IF ELSE PRINT
 %token LPAREN RPAREN LBRACE RBRACE SEMICOLON ASSIGN
-%token PLUS MINUS TIMES DIVIDE EQ
-%token LT GT  // Agregar estos tokens
+%token PLUS MINUS TIMES DIVIDE EQ NEQ LE GE
+%token LT GT AND OR NOT
 
 %type <strval> program stmt_list stmt expr
 
 %left ELSE
 %right ASSIGN
+%left OR
+%left AND
+%left EQ NEQ
+%left LT LE GT GE
 %left PLUS MINUS
 %left TIMES DIVIDE
-%left LT GT  // Definir la precedencia de los operadores de comparación
+%right NOT
 
 %%
 
 program:
     stmt_list { 
         fprintf(stderr, "program -> stmt_list\n"); 
-        output_code = $1;  // Guardar el código generado
+        output_code = $1;  
     }
     ;
 
 stmt_list:
     stmt_list stmt { 
         char *new_stmt_list = concat($1, $2);
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($2);
         $$ = new_stmt_list; 
         fprintf(stderr, "stmt_list -> stmt_list stmt: %s\n", $$); 
@@ -99,13 +100,13 @@ stmt_list:
 stmt:
     expr SEMICOLON { 
         char *new_stmt = concat($1, ";\n");
-        free($1);  // Liberar memoria previa
+        free($1);  
         $$ = new_stmt; 
         fprintf(stderr, "stmt -> expr SEMICOLON: %s\n", $$); 
     }
     | PRINT expr SEMICOLON { 
         char *print_stmt = concat("print(", concat($2, ");\n"));
-        free($2);  // Liberar memoria previa
+        free($2);  
         $$ = print_stmt; 
         fprintf(stderr, "stmt -> PRINT expr SEMICOLON: %s\n", $$); 
     }
@@ -115,7 +116,7 @@ stmt:
         char *wrapped_stmt = wrap_with_indent($5, indent_level);
         indent_level--;
         char *full_if_stmt = concat(if_stmt, wrapped_stmt);
-        free($3);  // Liberar memoria previa
+        free($3);  
         free($5);
         free(if_stmt);
         free(wrapped_stmt);
@@ -132,7 +133,7 @@ stmt:
         char *wrapped_else_stmt = wrap_with_indent($7, indent_level);
         indent_level--;
         char *full_if_else_stmt = concat(if_stmt, concat(wrapped_if_stmt, concat(else_stmt, wrapped_else_stmt)));
-        free($3);  // Liberar memoria previa
+        free($3);  
         free($5);
         free($7);
         free(if_stmt);
@@ -148,7 +149,7 @@ stmt:
         char *wrapped_stmt = wrap_with_indent($5, indent_level);
         indent_level--;
         char *full_while_stmt = concat(while_stmt, wrapped_stmt);
-        free($3);  // Liberar memoria previa
+        free($3);  
         free($5);
         free(while_stmt);
         free(wrapped_stmt);
@@ -179,7 +180,7 @@ stmt:
         char *wrapped_stmt_list = wrap_with_indent($2, indent_level);
         indent_level--;
         $$ = wrapped_stmt_list;
-        free($2);  // Liberar memoria previa
+        free($2);  
         fprintf(stderr, "stmt -> LBRACE stmt_list RBRACE: %s\n", $$); 
     }
     ;
@@ -187,63 +188,104 @@ stmt:
 expr:
     IDENTIFIER ASSIGN expr { 
         char *assign_expr = concat($1, concat(" = ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = assign_expr; 
         fprintf(stderr, "expr -> IDENTIFIER ASSIGN expr: %s\n", $$); 
     }
     | expr PLUS expr { 
         char *plus_expr = concat($1, concat(" + ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = plus_expr; 
         fprintf(stderr, "expr -> expr PLUS expr: %s\n", $$); 
     }
     | expr MINUS expr { 
         char *minus_expr = concat($1, concat(" - ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = minus_expr; 
         fprintf(stderr, "expr -> expr MINUS expr: %s\n", $$); 
     }
     | expr TIMES expr { 
         char *times_expr = concat($1, concat(" * ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = times_expr; 
         fprintf(stderr, "expr -> expr TIMES expr: %s\n", $$); 
     }
     | expr DIVIDE expr { 
         char *divide_expr = concat($1, concat(" / ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = divide_expr; 
         fprintf(stderr, "expr -> expr DIVIDE expr: %s\n", $$); 
     }
     | expr EQ expr { 
         char *eq_expr = concat($1, concat(" == ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = eq_expr; 
         fprintf(stderr, "expr -> expr EQ expr: %s\n", $$); 
     }
-    | expr LT expr {  // Agregar esta regla
+    | expr NEQ expr { 
+        char *neq_expr = concat($1, concat(" != ", $3));
+        free($1);  
+        free($3);
+        $$ = neq_expr; 
+        fprintf(stderr, "expr -> expr NEQ expr: %s\n", $$); 
+    }
+    | expr LT expr {  
         char *lt_expr = concat($1, concat(" < ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = lt_expr; 
         fprintf(stderr, "expr -> expr LT expr: %s\n", $$); 
     }
-    | expr GT expr {  // Agregar esta regla si también usas '>'
+    | expr LE expr {  
+        char *le_expr = concat($1, concat(" <= ", $3));
+        free($1);  
+        free($3);
+        $$ = le_expr; 
+        fprintf(stderr, "expr -> expr LE expr: %s\n", $$); 
+    }
+    | expr GT expr {  
         char *gt_expr = concat($1, concat(" > ", $3));
-        free($1);  // Liberar memoria previa
+        free($1);  
         free($3);
         $$ = gt_expr; 
         fprintf(stderr, "expr -> expr GT expr: %s\n", $$); 
     }
+    | expr GE expr {  
+        char *ge_expr = concat($1, concat(" >= ", $3));
+        free($1);  
+        free($3);
+        $$ = ge_expr; 
+        fprintf(stderr, "expr -> expr GE expr: %s\n", $$); 
+    }
+    | expr AND expr { 
+        char *and_expr = concat($1, concat(" and ", $3));
+        free($1);  
+        free($3);
+        $$ = and_expr; 
+        fprintf(stderr, "expr -> expr AND expr: %s\n", $$); 
+    }
+    | expr OR expr { 
+        char *or_expr = concat($1, concat(" or ", $3));
+        free($1);  
+        free($3);
+        $$ = or_expr; 
+        fprintf(stderr, "expr -> expr OR expr: %s\n", $$); 
+    }
+    | NOT expr { 
+        char *not_expr = concat("not ", $2);
+        free($2);  
+        $$ = not_expr; 
+        fprintf(stderr, "expr -> NOT expr: %s\n", $$); 
+    }
     | LPAREN expr RPAREN { 
         char *paren_expr = concat("(", concat($2, ")"));
-        free($2);  // Liberar memoria previa
+        free($2);  
         $$ = paren_expr; 
         fprintf(stderr, "expr -> LPAREN expr RPAREN: %s\n", $$); 
     }
@@ -286,12 +328,10 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Could not open output file\n");
         }
 
-        // Mostrar el contenido de output_code en la terminal
         printf("---------------------------------\n");
         printf("%s", output_code);
         printf("---------------------------------\n");
 
-        // Ejecutar el código traducido directamente
         printf("Ejecutando el codigo generado...\n");
         FILE *p = popen("python3 -", "w");
         if (p == NULL) {
